@@ -1,0 +1,47 @@
+---
+import type { Project } from '../../../types/projects';
+import Layout from '../../../layouts/Layout.astro';
+import Header from '../../../components/Header.astro';
+import ProjectCard from '../../../components/ProjectCard.tsx';
+import WhatsAppButton from '../../../components/WhatsAppButton.astro';
+import { projectCategories } from '../../../data/projects';
+
+export async function getStaticPaths() {
+  return projectCategories.map(category => ({
+    params: { categoryId: category.id },
+    props: { category },
+  }));
+}
+
+const { category } = Astro.props;
+---
+
+<Layout title={`${category.title} - EBF Servicios`}>
+  <Header />
+  <div class="min-h-screen pt-20">
+    <div class="container mx-auto px-4 py-8">
+      <div class="flex items-center space-x-4 mb-8">
+        <a href="/" class="text-red-600 hover:text-red-700 transition-colors">
+          Inicio
+        </a>
+        <span class="text-gray-400">/</span>
+        <span class="text-gray-600">{category.title}</span>
+      </div>
+
+      <h1 class="text-4xl font-bold mb-8">{category.title}</h1>
+      <p class="text-xl text-gray-600 mb-12">{category.description}</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {category.projects.map((project: Project) => (
+          <ProjectCard client:load {...project} />
+        ))}
+      </div>
+    </div>
+  </div>
+  <WhatsAppButton />
+<footer class="bg-gray-900 text-white py-6">
+    <div class="container mx-auto px-4 text-center">
+      <p>&copy; 2024 EBF Servicios. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+</Layout>

@@ -1,0 +1,62 @@
+---
+import { Award, Users, Target, Lightbulb } from 'lucide-react';
+
+const features = [
+  {
+    icon: Users,
+    title: 'Equipo Especializado',
+    description: 'Profesionales con amplia experiencia en BIM y construcción'
+  },
+  {
+    icon: Award,
+    title: 'Calidad Garantizada',
+    description: 'Compromiso con la excelencia en cada proyecto'
+  },
+  {
+    icon: Target,
+    title: 'Enfoque Innovador',
+    description: 'Soluciones personalizadas y efectivas'
+  },
+  {
+    icon: Lightbulb,
+    title: 'Mejora Continua',
+    description: 'Comunicación constante y retroalimentación'
+  }
+];
+---
+
+<section id="about" class="py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <h2 class="text-4xl font-bold text-center mb-12">Sobre Nosotros</h2>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <p class="text-lg text-gray-700 mb-8">
+          En <span class="font-bold">Ebf Servicios E.I.R.L.</span>, reunimos una amplia experiencia en la gestión y desarrollo de proyectos de construcción, destacándonos por nuestra capacidad de adaptarnos y responder a los desafíos del sector.
+        </p>
+        <p class="text-lg text-gray-700 mb-8">
+          Nuestro enfoque se centra en la colaboración estrecha con nuestros clientes, entendiendo sus necesidades y objetivos para ofrecer soluciones personalizadas y efectivas. Edgard Esteban Bascuñán, con más de once años de trayectoria, lidera un equipo comprometido que se enfrenta a los cambios y plazos ajustados con agilidad y determinación.
+        </p>
+        <div class="space-y-6">
+          {features.map((feature) => (
+            <div class="flex items-start space-x-4">
+              <div class="text-red-600">
+                <feature.icon className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 class="font-semibold mb-1">{feature.title}</h3>
+                <p class="text-gray-600">{feature.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div class="relative h-[400px] rounded-xl overflow-hidden">
+        <img 
+          src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80"
+          alt="Equipo de trabajo"
+          class="absolute inset-0 w-full h-full object-cover"
+        />
+      </div>
+    </div>
+  </div>
+</section>

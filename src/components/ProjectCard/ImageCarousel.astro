@@ -1,0 +1,63 @@
+---
+interface Props {
+  images: string[];
+}
+
+const { images } = Astro.props;
+---
+
+<div class="relative overflow-hidden aspect-video">
+  {
+    images.map((image, index) => (
+      <div
+        class="absolute inset-0 transition-opacity duration-500"
+        data-carousel-slide={index}
+        style={{ opacity: index === 0 ? "1" : "0" }}
+      >
+        <img
+          src={image}
+          alt={`Imagen ${index + 1}`}
+          class="w-full h-full object-cover"
+        />
+      </div>
+    ))
+  }
+
+  {/* Carousel Controls */}
+  <div class="absolute inset-0 flex items-center justify-between p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+    <button
+      class="bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+      data-carousel-prev
+      title="Imagen anterior"
+      aria-label="Ver imagen anterior"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-6 h-6"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="m15 18-6-6 6-6" />
+      </svg>
+    </button>
+    <button
+      class="bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+      data-carousel-next
+      title="Siguiente imagen"
+      aria-label="Ver siguiente imagen"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-6 h-6"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="m9 18 6-6-6-6" />
+      </svg>
+    </button>
+  </div>
+</div>

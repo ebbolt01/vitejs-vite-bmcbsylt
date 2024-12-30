@@ -1,0 +1,42 @@
+---
+interface Props {
+  type: 'model' | 'service' | 'back';
+  variant: 'primary' | 'secondary';
+}
+
+const { type, variant } = Astro.props;
+
+const baseClasses = "absolute bottom-4 left-4 px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 z-10";
+const variantClasses = {
+  primary: "bg-red-600 text-white hover:bg-red-700",
+  secondary: "bg-gray-900 text-white hover:bg-gray-800"
+};
+
+const buttonText = {
+  model: "Ver Modelo 3D",
+  service: "Ver Servicio",
+  back: "Volver a Descripción"
+};
+
+const icons = {
+  model: `<path d="M12 3v19"/><path d="M5 10h14"/><path d="M5 15h14"/>`,
+  service: `<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>`,
+  back: `<path d="M14 9l-6 6"/><path d="M9 9h5v5"/>`
+};
+---
+
+<button
+  class={`${baseClasses} ${variantClasses[variant]}`}
+  data-action={type === 'back' ? 'view-front' : 'view-model'}
+>
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    class="w-5 h-5" 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    stroke-width="2"
+    set:html={icons[type]}
+  />
+  <span>{buttonText[type]}</span>
+</button>

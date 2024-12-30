@@ -1,0 +1,23 @@
+---
+interface Props {
+  modelUrl: string;
+  serviceDescription?: string;
+  modelType: 'a360' | 'service';
+}
+
+const { modelUrl, serviceDescription, modelType } = Astro.props;
+---
+
+<div class="absolute inset-0 w-full h-full">
+  {modelType === 'a360' ? (
+    <iframe
+      src={modelUrl}
+      class="w-full h-full border-0"
+      allowfullscreen
+    ></iframe>
+  ) : (
+    <div class="w-full h-full bg-gray-900 text-white p-8 flex items-center justify-center">
+      <p class="text-lg text-center">{serviceDescription}</p>
+    </div>
+  )}
+</div>

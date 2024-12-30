@@ -1,0 +1,101 @@
+---
+import { projectCategories } from '../data/projects';
+---
+
+<header class="fixed w-full bg-black/90 backdrop-blur-sm z-50">
+  <div class="container mx-auto px-4 py-4">
+    <div class="flex justify-between items-center">
+      <a href="/" class="flex items-center space-x-2">
+        <div class="relative">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="4" width="16" height="16" rx="2" ry="2"/>
+            <path d="M9 9h6"/>
+            <path d="M9 13h6"/>
+            <path d="M9 17h6"/>
+          </svg>
+          <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-white rounded-full flex items-center justify-center">
+            <span class="text-red-600 text-xs font-bold">3D</span>
+          </div>
+        </div>
+        <div>
+          <h1 class="text-2xl font-bold text-white leading-none">EBF</h1>
+          <p class="text-sm text-red-600 font-semibold">Servicios</p>
+        </div>
+      </a>
+      
+      <nav class="hidden md:flex space-x-8">
+        <a href="/" class="text-white hover:text-red-600 transition-colors">
+          Inicio
+        </a>
+        <a href="/#about" class="text-white hover:text-red-600 transition-colors">
+          Nosotros
+        </a>
+        <a href="/" class="text-white hover:text-red-600 transition-colors">
+          Servicios
+        </a>
+        <div class="relative group">
+          <button 
+            class="text-white hover:text-red-600 transition-colors flex items-center space-x-1"
+            aria-expanded="false"
+            data-projects-menu
+          >
+            <span>Proyectos</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform group-hover:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m6 9 6 6 6-6"/>
+            </svg>
+          </button>
+          <div 
+            class="absolute top-full right-0 mt-2 w-64 bg-black rounded-lg shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200"
+            data-projects-dropdown
+          >
+            {projectCategories.map((category) => (
+              <a
+                href={`/proyectos/${category.id}`}
+                class="block px-4 py-2 text-white hover:bg-red-600 transition-colors"
+              >
+                {category.title}
+              </a>
+            ))}
+          </div>
+        </div>
+        <a href="/#contact" class="text-white hover:text-red-600 transition-colors">
+          Contacto
+        </a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<script>
+  const projectsMenu = document.querySelector('[data-projects-menu]');
+  const projectsDropdown = document.querySelector('[data-projects-dropdown]');
+  let timeoutId: number;
+
+  function showDropdown() {
+    clearTimeout(timeoutId);
+    if (projectsDropdown instanceof HTMLElement) {
+      projectsDropdown.style.opacity = '1';
+      projectsDropdown.style.visibility = 'visible';
+    }
+    if (projectsMenu instanceof HTMLElement) {
+      projectsMenu.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  function hideDropdown() {
+    timeoutId = setTimeout(() => {
+      if (projectsDropdown instanceof HTMLElement) {
+        projectsDropdown.style.opacity = '0';
+        projectsDropdown.style.visibility = 'hidden';
+      }
+      if (projectsMenu instanceof HTMLElement) {
+        projectsMenu.setAttribute('aria-expanded', 'false');
+      }
+    }, 150);
+  }
+
+  projectsMenu?.addEventListener('mouseenter', showDropdown);
+  projectsMenu?.addEventListener('mouseleave', hideDropdown);
+  projectsDropdown?.addEventListener('mouseenter', showDropdown);
+  projectsDropdown?.addEventListener('mouseleave', hideDropdown);
+</script>

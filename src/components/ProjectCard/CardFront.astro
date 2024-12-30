@@ -1,0 +1,28 @@
+---
+import type { Project } from "../../types/projects";
+import ImageCarousel from "./ImageCarousel.astro";
+import ProjectInfo from "./ProjectInfo.astro";
+import ModelButton from "./ModelButton.astro";
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+<div class="card-front bg-white rounded-lg shadow-lg overflow-hidden">
+  <ImageCarousel images={project.images} />
+  <ProjectInfo project={project} />
+  <div class="p-4 flex justify-center">
+    <ModelButton project={project} />
+  </div>
+</div>
+
+<style>
+  .card-front {
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+  }
+</style>

@@ -1,0 +1,25 @@
+---
+interface Props {
+  modelUrl: string;
+  isVisible: boolean;
+}
+
+const { modelUrl, isVisible } = Astro.props;
+---
+
+<div class={`absolute inset-0 transition-transform duration-500 backface-hidden ${isVisible ? 'rotate-y-180' : ''}`}>
+  <iframe
+    src={modelUrl}
+    class="w-full h-full border-0"
+    allowfullscreen
+  ></iframe>
+</div>
+
+<style>
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+</style>

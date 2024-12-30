@@ -1,0 +1,143 @@
+---
+//@ts-ignore
+import { ProjectCardComponent } from './ProjectCard/ProjectCardLogic';
+
+const { title, description, imageUrl, services, details, modelUrl } = Astro.props;
+
+const images = [imageUrl];
+if (details?.additionalImages) {
+  images.push(...details.additionalImages);
+}
+
+const isDefaultModel = !modelUrl || modelUrl.trim() === '';
+
+const buttonClasses = isDefaultModel
+  ? "bg-gray-900 hover:bg-gray-800"
+  : "bg-red-600 hover:bg-red-700";
+
+---
+
+<div class="bg-white rounded-xl shadow-lg overflow-hidden group">
+  <div class="relative [perspective:1000px]">
+    <div class="relative transition-all duration-700 [transform-style:preserve-3d]" data-card-inner>
+      <!-- Front side -->
+      <div class="relative">
+        <!-- Carousel -->
+        <div class="relative overflow-hidden aspect-video">
+          {images.map((image, index) => (
+            <div
+              class="absolute inset-0 transition-opacity duration-500"
+              data-carousel-slide={index}
+              style={{ opacity: index === 0 ? '1' : '0' }}
+            >
+              <img
+                src={image}
+                alt={`${title} - Imagen ${index + 1}`}
+                class="w-full h-full object-cover"
+              />
+            </div>
+          ))}
+
+          <!-- Carousel Controls -->
+          <div class="absolute inset-0 flex items-center justify-between p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+            <button
+              class="bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+              data-carousel-prev
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m15 18-6-6 6-6"/>
+              </svg>
+            </button>
+            <button
+              class="bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+              data-carousel-next
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-2">{title}</h3>
+          <p class="text-gray-600 mb-4">{description}</p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            {services.map((service: string) => (
+              <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">
+                {service}
+              </span>
+            ))}
+          </div>
+          <div class="space-y-2 text-sm text-gray-500">
+            <p><strong>Cliente:</strong> {details.client}</p>
+            <p><strong>Fecha:</strong> {details.date}</p>
+            <p><strong>Ubicación:</strong> {details.location}</p>
+          </div>
+        </div>
+
+        <!-- Model Button -->
+        <button
+          class={`absolute bottom-4 right-4 ${buttonClasses} text-white px-6 py-3 rounded-lg transition-colors flex items-center space-x-2 z-10`}
+          data-view-model
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            {isDefaultModel ? (
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            ) : (
+              <>
+                <path d="M12 3v19"/>
+                <path d="M5 10h14"/>
+                <path d="M5 15h14"/>
+              </>
+            )}
+          </svg>
+          <span>{isDefaultModel ? 'Ver Servicio' : 'Ver Modelo 3D'}</span>
+        </button>
+      </div>
+
+      <!-- Back side -->
+      <div class="absolute inset-0 h-full w-full [backface-visibility:hidden] [transform:rotateY(180deg)] bg-white">
+        {isDefaultModel ? (
+          <div class="p-6 flex items-center justify-center h-full">
+            <p class="text-gray-700">Descripción del servicio aquí</p>
+          </div>
+        ) : (
+          <iframe
+            src={modelUrl}
+            class="w-full h-full border-0"
+            allowfullscreen
+          />
+        )}
+        <button
+          class={`absolute bottom-4 right-4 ${isDefaultModel ? 'bg-gray-900 hover:bg-gray-800' : 'bg-red-600 hover:bg-red-700'} text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2`}
+          data-view-description
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 9l-6 6"/>
+            <path d="M9 9h5v5"/>
+          </svg>
+          <span>Ver Descripción</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+</style>
+
+<script>
+  //@ts-ignore
+  import { ProjectCardComponent } from './ProjectCard/ProjectCardLogic';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.bg-white.rounded-xl.group').forEach(cardElement => {
+      new ProjectCardComponent(cardElement);
+    });
+  });
+</script>

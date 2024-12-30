@@ -1,0 +1,20 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+---
+
+<Layout title="404 - Página no encontrada">
+  <Header />
+  <div class="min-h-screen pt-20 flex items-center justify-center">
+    <div class="text-center">
+      <h1 class="text-6xl font-bold text-red-600 mb-4">404</h1>
+      <p class="text-xl text-gray-600 mb-8">Página no encontrada</p>
+      <a 
+        href="/" 
+        class="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg text-lg transition-colors inline-block"
+      >
+        Volver al inicio
+      </a>
+    </div>
+  </div>
+</Layout>

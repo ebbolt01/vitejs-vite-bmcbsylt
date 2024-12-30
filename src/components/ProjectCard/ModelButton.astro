@@ -1,0 +1,19 @@
+---
+import type { Project } from "../../types/projects";
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const isDefaultA360Link = project.a360Link === "default";
+---
+
+<button
+  class={`px-6 py-2 rounded-lg font-semibold transition-colors duration-300 ${
+    isDefaultA360Link ? 'bg-black text-white hover:bg-gray-800' : 'bg-red-600 text-white hover:bg-red-700'
+  }`}
+  data-view-model
+>
+  {isDefaultA360Link ? "Ver Servicio" : "Ver modelo 3D"}
+</button>

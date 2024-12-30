@@ -1,0 +1,48 @@
+---
+import CardFront from "./CardFront.astro";
+import CardBack from "./CardBack.astro";
+import type { Project } from "../../types/projects";
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+<div class="project-card group perspective-1000" data-card>
+  <div class="relative transform-style-3d transition-transform duration-1000" data-card-inner>
+    <div class="absolute w-full h-full backface-hidden">
+      <CardFront project={project} />
+    </div>
+    <div class="absolute w-full h-full backface-hidden rotate-y-180">
+      <CardBack project={project} />
+    </div>
+  </div>
+</div>
+
+<script>
+  import { ProjectCardComponent } from "./ProjectCardLogic";
+  
+  document.querySelectorAll("[data-card]").forEach((card) => {
+    new ProjectCardComponent(card);
+  });
+</script>
+
+<style>
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+  
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+</style>
